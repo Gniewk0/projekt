@@ -97,8 +97,8 @@ class UsersController extends Controller
      * @param  \App\Models\Users  $users
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Users $users)
+    public function destroy(Request $request)
     {
-        //
+        Users::where('id', '=', $request->id)->delete();
     }
 }

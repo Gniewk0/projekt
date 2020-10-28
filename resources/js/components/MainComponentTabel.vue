@@ -6,6 +6,7 @@
                 <th scope="col">#</th>
                 <th scope="col">First</th>
                 <th scope="col">Last</th>
+                <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -13,6 +14,9 @@
                     <th scope="row">{{user.id}}</th>
                     <td>{{user.name}}</td>
                     <td>{{user.surname}}</td>
+                    <td>
+                       <button type="button" class="btn btn-secondary" @click="Delete(user.id)">X</button>
+                    </td>
                 </tr>
             </tbody>
             </table>
@@ -22,12 +26,19 @@
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
+            // console.log('Component mounted.')
         },
         props: {
             data: {
                 required: true
             },
         },
+        methods: {
+            Delete(value){
+                axios.delete('/users', {params: {id: value}})
+                .then(response => this.getNumbers(this.id))
+                .catch(error => this.errors = error.response.state);
+            }
+        }
     }
 </script>

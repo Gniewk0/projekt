@@ -55,6 +55,7 @@
         },
         methods: {
             closemodal(){
+                this.showModalEdit = false
                 this.showModal = false
                 this.getData()
             },
