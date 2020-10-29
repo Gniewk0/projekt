@@ -1,65 +1,85 @@
 <template>
 <div class="modback">
-<div class="">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Dodaj użytkownika</h5>
-        <!-- <p>{{amout}}</p> -->
-      </div>
-      <div class="modal-body">
-        <div class="d-flex numbertitle">
-            <p class="mt-1">Imię i nazwisko</p>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="inputEmail4" placeholder="name" v-model="name">
-                <!-- <span class="text-danger" v-if="errors.getStart(number)" v-text="errors.getStart(number)"></span> -->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><slot name="header"></slot></h5>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="d-flex numbertitle">
+                            <p class="mt-1">Name And Surname</p>
+                        </div>
+                        <div class="form-group" v-if="!add || destroy">
+                            <label for="select">chose user</label>
+                            <select class="form-control" v-model="selected" id="select">
+                                <option v-for="(option, i) in data" :key="i" :value="option.id">
+                                    id:{{option.id}},name: {{ option.name }},surname: {{ option.surname }},age: {{ option.age }},address {{ option.address }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-row" v-if="!destroy">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="name" placeholder="name" v-model="name">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="surname" placeholder="surname" v-model="surname">
+                            </div>
+                            <fieldset class="form-group col-md-12">
+                            <div class="row">
+                            <legend class="col-form-label col-sm-2 pt-0">sex:</legend>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="male" v-model="sex">
+                                    <label class="form-check-label" for="gridRadios1">
+                                        male
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="female" v-model="sex">
+                                    <label class="form-check-label" for="gridRadios2">
+                                        female
+                                    </label>
+                                </div>
+                                <div class="form-check disabled">
+                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="other" v-model="sex">
+                                    <label class="form-check-label" for="gridRadios3">
+                                        other
+                                    </label>
+                                </div>
+                            </div>
+                            </div>
+                        </fieldset>
+                        <br>
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="address" placeholder="address" v-model="address">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="number" class="form-control" id="age" placeholder="age" v-model="age">
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @click="$emit('close')">zamknij</button>
+                    <button type="button" class="btn btn-secondary" @click=Add()><span><slot name="footer"></slot></span></button>
+                </div>
             </div>
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="inputPassword4" placeholder="surname" v-model="surname">
-                <!-- <span class="text-danger" v-if="errors.getEnd(number)" v-text="errors.getEnd(number)"></span> -->
-            </div>
         </div>
-    </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" @click="$emit('close')">zamknij</button>
-        <button type="button" class="btn btn-secondary" @click=Add()>
-            <span>dodaj numery</span>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
 </div>
 </template>
-
-<style scoped>
-.modback{
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: scroll; /* Enable scroll if needed */
-  background-color: rgb(0,0,0)!important; /* Fallback color */
-  background-color: rgba(0,0,0,0.3)!important; /* Black w/ opacity */
-}
-
-.spinner{
-  position: absolute;
-  z-index: 1;
-  left: 47%;
-  top: 40%;
-}
-</style>
 
 <script>
     import Errors from "../Errors/error.js"
     export default {
         props: {
-            appId: {
+            data:{
+                // required: true
+            },
+            destroy:{
+                // required: true
+            },
+            add:{
                 // required: true
             }
         },
@@ -67,7 +87,11 @@
             return {
                 errors: new Errors,
                 name: '',
-                surname: ''
+                surname: '',
+                age: '',
+                sex: '',
+                address: '',
+                selected: ''
             }
         },
         mounted() {
@@ -77,18 +101,52 @@
         methods: {
             Add() {
             // this.errors.clearAll()
-            axios.post('/users', {
-                name: this.name,
-                surname: this.surname,
-            })
-            .then(response => this.$emit('close'))
-            .catch(error => this.errors.record(error.response.data));
+                if(this.add){
+                    axios.post('/users', {
+                        name: this.name,
+                        surname: this.surname,
+                        age: this.age,
+                        sex: this.sex,
+                        address: this.address,
+                    })
+                    .then(response => this.$emit('close'))
+                    .catch(error => this.errors.record(error.response.data));
+                }else if(this.destroy){
+                    axios.delete('/users', {
+                       params: { id: this.selected}
+                    })
+                    .then(response => this.$emit('close'))
+                    .catch(error => this.errors.record(error.response.data));
+                }else{
+                    axios.put('/users/update', {
+                        id: this.selected,
+                        name: this.name,
+                        surname: this.surname,
+                        age: this.age,
+                        sex: this.sex,
+                        address: this.address,
+                    })
+                    .then(response => this.$emit('close'))
+                    .catch(error => this.errors.record(error.response.data))
+                }
             },
         }
     }
 </script>
 
-<style>
+<style scoped>
+    .modback{
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        /*overflow: scroll; /* Enable scroll if needed */
+        background-color: rgb(0,0,0)!important; /* Fallback color */
+        background-color: rgba(0,0,0,0.3)!important; /* Black w/ opacity */
+    }
+
     .modal-mask {
         position: fixed;
         z-index: 9998;
@@ -130,8 +188,6 @@
         float: right;
     }
 
-
-
     .modal-enter {
         opacity: 0;
     }
@@ -145,5 +201,4 @@
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
     }
-
 </style>

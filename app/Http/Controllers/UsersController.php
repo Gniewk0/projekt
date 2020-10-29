@@ -46,6 +46,9 @@ class UsersController extends Controller
         $answers[] = [
             'name' => $request->name,
             'surname' => $request->surname,
+            'age' => $request->age,
+            'sex' => $request->sex,
+            'address' => $request->address
         ];
         Users::insert($answers);
 
@@ -81,14 +84,18 @@ class UsersController extends Controller
      * @param  \App\Models\Users  $users
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Users $users)
+    public function update(Request $request)
     {
-        //   $attributes = request()->validate(E06s::$rules_case_termination_date);
-        // E06s::where('case_id', '=', $request->numbers['id'])->update([
-        //     'case_termination_date' => $request->case_termination_date.'T00:00:00'
-        // ]);
+        $attributes = request()->validate(Users::$updaterules);
+        Users::where('id', '=', $request->id)->update([
+            'name' => $request->name,
+            'surname' => $request->surname,
+            'age' => $request->age,
+            'sex' => $request->sex,
+            'address' => $request->address
+        ]);
 
-        // return ['message' => 'e06 Updated'];
+        return ['message' => 'User Updated'];
     }
 
     /**
@@ -99,6 +106,7 @@ class UsersController extends Controller
      */
     public function destroy(Request $request)
     {
+        $attributes = request()->validate(Users::$deleterules);
         Users::where('id', '=', $request->id)->delete();
     }
 }

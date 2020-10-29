@@ -6,6 +6,9 @@
                 <th scope="col">#</th>
                 <th scope="col">First</th>
                 <th scope="col">Last</th>
+                <th scope="col">age</th>
+                <th scope="col">sex</th>
+                <th scope="col">address</th>
                 </tr>
             </thead>
             <tbody>
@@ -13,6 +16,9 @@
                     <th scope="row">{{user.id}}</th>
                     <td>{{user.name}}</td>
                     <td>{{user.surname}}</td>
+                    <td>{{user.age}}</td>
+                    <td>{{user.sex}}</td>
+                    <td>{{user.address}}</td>
                 </tr>
             </tbody>
         </table>
@@ -26,17 +32,12 @@
                 searchresult: [],
             }
         },
-        watch: {
-            search(value){
-                if(this.search.length > 0){
-                    if(value == this.search)
-                        this.Searching(value);
-                }
-            },
+        mounted(){
+            this.Searching(this.search)
         },
         props: {
             search: {
-                required: true
+                required: true,
             },
         },
         methods: {
