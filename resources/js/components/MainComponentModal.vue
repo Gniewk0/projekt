@@ -1,5 +1,5 @@
 <template>
-<div class="modback">
+    <div class="modback">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -17,46 +17,52 @@
                                     id:{{option.id}} | name: {{ option.name }} | surname: {{ option.surname }} | address {{ option.address }}
                                 </option>
                             </select>
+                            <span class="text-danger" v-if="errors.getId(selected)" v-text="errors.getId(selected)"></span>
                         </div>
                         <div class="form-row" v-if="!destroy">
                             <div class="form-group col-md-6">
                                 <input type="text" class="form-control" id="name" placeholder="name" v-model="name">
+                                <span class="text-danger" v-if="errors.getName(name)" v-text="errors.getName(name)"></span>
                             </div>
                             <div class="form-group col-md-6">
                                 <input type="text" class="form-control" id="surname" placeholder="surname" v-model="surname">
+                                <span class="text-danger" v-if="errors.getSurname(surname)" v-text="errors.getSurname(surname)"></span>
                             </div>
                             <fieldset class="form-group col-md-12">
-                            <div class="row">
-                            <legend class="col-form-label col-sm-2 pt-0">sex:</legend>
-                            <div class="col-sm-10">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="male" v-model="sex">
-                                    <label class="form-check-label" for="gridRadios1">
-                                        male
-                                    </label>
+                                <div class="row">
+                                <legend class="col-form-label col-sm-2 pt-0">sex:</legend>
+                                    <div class="col-sm-10">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="male" v-model="sex">
+                                            <label class="form-check-label" for="gridRadios1">
+                                                male
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="female" v-model="sex">
+                                            <label class="form-check-label" for="gridRadios2">
+                                                female
+                                            </label>
+                                        </div>
+                                        <div class="form-check disabled">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="other" v-model="sex">
+                                            <label class="form-check-label" for="gridRadios3">
+                                                other
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="female" v-model="sex">
-                                    <label class="form-check-label" for="gridRadios2">
-                                        female
-                                    </label>
-                                </div>
-                                <div class="form-check disabled">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="other" v-model="sex">
-                                    <label class="form-check-label" for="gridRadios3">
-                                        other
-                                    </label>
-                                </div>
+                                <span class="text-danger" v-if="errors.getSex(sex)" v-text="errors.getSex(sex)"></span>
+                            </fieldset>
+                            <br>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="address" placeholder="address" v-model="address">
+                                <span class="text-danger" v-if="errors.getAddress(address)" v-text="errors.getAddress(address)"></span>
                             </div>
+                            <div class="form-group col-md-6">
+                                <input type="number" class="form-control" id="age" placeholder="age" v-model="age">
+                                <span class="text-danger" v-if="errors.getAge(age)" v-text="errors.getAge(age)"></span>
                             </div>
-                        </fieldset>
-                        <br>
-                        <div class="form-group col-md-6">
-                            <input type="text" class="form-control" id="address" placeholder="address" v-model="address">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <input type="number" class="form-control" id="age" placeholder="age" v-model="age">
-                        </div>
                         </div>
                     </div>
                 </div>
@@ -66,7 +72,7 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
 </template>
 
 <script>
@@ -100,7 +106,7 @@
         },
         methods: {
             Add() {
-            // this.errors.clearAll()
+            this.errors.clearAll()
                 if(this.add){
                     axios.post('/users', {
                         name: this.name,

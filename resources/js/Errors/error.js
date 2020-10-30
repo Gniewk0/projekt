@@ -12,31 +12,45 @@ export default class Errors{ // klasa obsługująca błedy walidacji w formularz
             }
         }
 
-        getStart(field) {
+        getId(field) {
             if(this.errors[0]){
-                if(this.errors[0].errors["startNumber."+field] !== undefined)
-                return this.errors[0].errors["startNumber."+field].join(" ");
+                if(this.errors[0].errors["id"] !== undefined)
+                return this.errors[0].errors["id"].join(" ");
             }
         }
 
-        getEnd(field) {
+        getName(field) {
             if(this.errors[0]){
-                if(this.errors[0].errors["endNumber."+field] !== undefined)
-                return this.errors[0].errors["endNumber."+field].join(" ");
+                if(this.errors[0].errors["name"] !== undefined)
+                return this.errors[0].errors["name"].join(" ");
             }
         }
 
-        getEditStart() {
+        getSurname(field) {
             if(this.errors[0]){
-                if(this.errors[0].errors["startNumber"] !== undefined)
-                return this.errors[0].errors["startNumber"].join(" ");
+                if(this.errors[0].errors["surname"] !== undefined)
+                return this.errors[0].errors["surname"].join(" ");
             }
         }
 
-        getEditEnd() {
+        getSex() {
             if(this.errors[0]){
-                if(this.errors[0].errors["endNumber"] !== undefined)
-                return this.errors[0].errors["endNumber"].join(" ");
+                if(this.errors[0].errors["sex"] !== undefined)
+                return this.errors[0].errors["sex"].join(" ");
+            }
+        }
+
+        getAddress() {
+            if(this.errors[0]){
+                if(this.errors[0].errors["address"] !== undefined)
+                return this.errors[0].errors["address"].join(" ");
+            }
+        }
+
+        getAge() {
+            if(this.errors[0]){
+                if(this.errors[0].errors["age"] !== undefined)
+                return this.errors[0].errors["age"].join(" ");
             }
         }
 

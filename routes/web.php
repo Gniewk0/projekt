@@ -17,8 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/users', 'App\Http\Controllers\UsersController@store'); //add
-Route::get('/users', 'App\Http\Controllers\UsersController@index'); //add
-Route::put('/users/update', 'App\Http\Controllers\UsersController@update'); //add
-Route::get('/users/search', 'App\Http\Controllers\UsersController@search'); //add
-Route::delete('/users', 'App\Http\Controllers\UsersController@destroy'); //add
+Route::post('/users', 'App\Http\Controllers\UsersController@store'); //add users
+Route::get('/users', 'App\Http\Controllers\UsersController@index'); //get users
+Route::put('/users/update', 'App\Http\Controllers\UsersController@update'); //update users
+Route::get('/users/search', 'App\Http\Controllers\UsersController@search'); //serching user
+Route::delete('/users', 'App\Http\Controllers\UsersController@destroy'); //delete user
