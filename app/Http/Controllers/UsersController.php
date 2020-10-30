@@ -20,7 +20,7 @@ class UsersController extends Controller
     public function search(Request $request)
     {
         $search = $request->key;
-        return Users::where('name', 'like', $search.'%')->orWhere('id', 'like', $search.'%')->orWhere('id', '=', $search)->orWhere('surname', 'like', $search.'%')->get();
+        return Users::where('name', 'like', $search.'%')->orWhere('address', 'like', '%'.$search.'%')->orWhere('id', 'like', $search.'%')->orWhere('id', '=', $search)->orWhere('surname', 'like', $search.'%')->get();
         // return Users::where('id', '=', 1)->get();
     }
 
