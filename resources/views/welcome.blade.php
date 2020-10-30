@@ -28,7 +28,7 @@
         <div>
             <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm p-0">
                 <div class="container py-3">
-                    <h2>Projekt</h2>
+                    <h2>Project</h2>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                         <span class="navbar-toggler-icon"></span>
                     </button>

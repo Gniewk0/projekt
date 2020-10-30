@@ -8,13 +8,13 @@
                 <div class="modal-body">
                     <div class="modal-body">
                         <div class="d-flex numbertitle">
-                            <p class="mt-1">Name And Surname</p>
+                            <p class="mt-1">Name and Surname</p>
                         </div>
                         <div class="form-group" v-if="!add || destroy">
-                            <label for="select">chose user</label>
+                            <label for="select">select user</label>
                             <select class="form-control" v-model="selected" id="select">
                                 <option v-for="(option, i) in data" :key="i" :value="option.id">
-                                    id:{{option.id}},name: {{ option.name }},surname: {{ option.surname }},age: {{ option.age }},address {{ option.address }}
+                                    id:{{option.id}} | name: {{ option.name }} | surname: {{ option.surname }} | address {{ option.address }}
                                 </option>
                             </select>
                         </div>

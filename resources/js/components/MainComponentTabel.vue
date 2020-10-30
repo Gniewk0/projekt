@@ -12,35 +12,23 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in data" :key="user.id">
-                    <th scope="row">{{user.id}}</th>
-                    <td>{{user.name}}</td>
-                    <td>{{user.surname}}</td>
-                    <td>{{user.age}}</td>
-                    <td>{{user.sex}}</td>
-                    <td>{{user.address}}</td>
-                </tr>
+                <slot></slot>
             </tbody>
-            </table>
+        </table>
     </div>
 </template>
 
 <script>
     export default {
-        mounted() {
-            // console.log('Component mounted.')
+        data(){
+            return {
+
+            }
         },
-        props: {
-            data: {
-                required: true
-            },
+        mounted() {
         },
         methods: {
-            Delete(value){
-                axios.delete('/users', {params: {id: value}})
-                .then(response => this.getNumbers(this.id))
-                .catch(error => this.errors = error.response.state);
-            }
+
         }
     }
 </script>

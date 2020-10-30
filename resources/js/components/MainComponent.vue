@@ -1,19 +1,19 @@
 <template>
 <div>
     <MainComponentModal v-if="showModal" @close="closemodal()" :add="add = true" id="exampleModal">
-        <template #header>Dodaj Urzytkownika</template>
-        <template #footer>Dodaj</template>
+        <template #header>Add User</template>
+        <template #footer>Add</template>
     </MainComponentModal>
     <MainComponentModal v-if="showModalEdit" @close="closemodal()" :add="add = false" :data='data' id="exampleModal">
-        <template #header>Edytuj Urzytkownika</template>
-        <template #footer>Edytuj</template>
+        <template #header>Edit User</template>
+        <template #footer>Edit</template>
     </MainComponentModal>
         <MainComponentModal v-if="showModalDestroy" @close="closemodal()" :destroy="destroy = true" :data='data' id="exampleModal">
-        <template #header>Usuń Urzytkownika</template>
-        <template #footer>Usuń</template>
+        <template #header>Delete User</template>
+        <template #footer>Delete</template>
     </MainComponentModal>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Menu</a>
+    <a class="navbar-brand" href="#" @click="getData()">Main Dashboard</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -37,8 +37,16 @@
     </div>
     </nav>
         <div>
-            <MainComponentTabel v-if="!searchcheck" :data='data'></MainComponentTabel>
-            <MainComponentTableSearch v-if="searchcheck" :search='search'></MainComponentTableSearch>
+            <MainComponentTabel>
+                <tr v-for="user in data" :key="user.id">
+                    <th scope="row">{{user.id}}</th>
+                    <td>{{user.name}}</td>
+                    <td>{{user.surname}}</td>
+                    <td>{{user.age}}</td>
+                    <td>{{user.sex}}</td>
+                    <td>{{user.address}}</td>
+                </tr>
+            </MainComponentTabel>
         </div>
     </div>
 </template>
@@ -46,7 +54,6 @@
 <script>
     import MainComponentModal from './MainComponentModal';
     import MainComponentTabel from './MainComponentTabel';
-    import MainComponentTableSearch from './MainComponentTableSearch';
     export default {
         data(){
             return {
@@ -63,7 +70,6 @@
         },
         components: {
             MainComponentTabel,
-            MainComponentTableSearch,
             MainComponentModal,
         },
         methods: {
@@ -78,16 +84,21 @@
                     .then(response => this.data = response.data)
                     .catch(error => this.errors.record(error.response.data));
             },
-            async searchmethod(){
-                if(this.searchcheck == true){
-                    this.searchcheck = false
-                    setTimeout(function(){ this.searchcheck = true }, 1);
-
-                }else{
-                    this.searchcheck = true
-                }
-
-            }
+            searchmethod(){
+                this.Searching(this.search)
+            },
+            Searching(value){
+                axios.get('/users/search',{
+                    params: {
+                        key: value
+                    }
+                })
+                .then((response) => {
+                    this.data = response.data;
+                },(error) => {
+                    console.log(error);
+                });
+            },
         }
     }
 </script>
