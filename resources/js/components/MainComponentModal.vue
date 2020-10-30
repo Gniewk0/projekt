@@ -7,7 +7,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="modal-body">
-                        <div class="d-flex numbertitle">
+                        <div class="d-flex numbertitle" v-if="!destroy">
                             <p class="mt-1">Name and Surname</p>
                         </div>
                         <div class="form-group" v-if="!add || destroy">
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" @click="$emit('close')">zamknij</button>
+                    <button type="button" class="btn btn-secondary" @click="$emit('close')">close</button>
                     <button type="button" class="btn btn-secondary" @click=Add()><span><slot name="footer"></slot></span></button>
                 </div>
             </div>

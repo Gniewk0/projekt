@@ -67,10 +67,21 @@
         },
         mounted() {
             this.getData()
+            this.getVuexData()
         },
         components: {
             MainComponentTabel,
             MainComponentModal,
+        },
+        computed: {
+            vuexdata: {
+                get () {
+                return this.$store.getters.getData
+                },
+                set (value) {
+                    this.$store.commit('getData', value);
+                }
+            },
         },
         methods: {
             closemodal(){
@@ -86,6 +97,9 @@
             },
             searchmethod(){
                 this.Searching(this.search)
+            },
+            getVuexData(){//pobiera dane wniosku dla e03 przez case_document_1_id
+                this.$store.dispatch('getData');
             },
             Searching(value){
                 axios.get('/users/search',{
