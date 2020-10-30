@@ -6,9 +6,13 @@
 
 require('./bootstrap');
 
+import Vue from 'vue';
+import Vuex from 'vuex';
 import router from './router'
 
 window.Vue = require('vue');
+
+import store from './store/index';
 
 /**
  * The following block of code may be used to automatically register your
@@ -32,5 +36,6 @@ Vue.component('main-component', require('./components/MainComponent.vue').defaul
 const app = new Vue({
     el: '#app',
 
-    // router,
+    store,
+    router,
 });
