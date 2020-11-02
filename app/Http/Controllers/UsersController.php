@@ -61,9 +61,9 @@ class UsersController extends Controller
      * @param  \App\Models\Users  $users
      * @return \Illuminate\Http\Response
      */
-    public function show(Users $users)
+    public function show(Request $request)
     {
-        //
+        return Users::where('id', "=", $request->id)->get();
     }
 
     /**
@@ -106,7 +106,6 @@ class UsersController extends Controller
      */
     public function destroy(Request $request)
     {
-        $attributes = request()->validate(Users::$deleterules);
         Users::where('id', '=', $request->id)->delete();
     }
 }

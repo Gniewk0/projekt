@@ -3,9 +3,9 @@ import VueRouter from 'vue-router';
 
 let routes = [
 {
-    // path: '/wnioski',
-    // name: 'AppLayout',
-    // component: AppLayout,
+    // path: '/',
+    // name: '',
+    // component: '',
     // props: true,
 }
 ]

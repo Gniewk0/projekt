@@ -9,6 +9,7 @@
                     <th scope="col">age</th>
                     <th scope="col">sex</th>
                     <th scope="col">address</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>

@@ -17,14 +17,10 @@ class Users extends Model
         'address' => 'required',
     ];
     public static $updaterules = [
-        'id' => 'required',
         'name' => 'required',
         'surname' => 'required',
         'age' => 'required',
         'sex' => 'required',
         'address' => 'required',
-    ];
-    public static $deleterules = [
-        'id' => 'required',
     ];
 }

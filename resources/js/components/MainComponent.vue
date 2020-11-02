@@ -4,13 +4,9 @@
             <template #header>Add User</template>
             <template #footer>Add</template>
         </MainComponentModal>
-        <MainComponentModal v-if="showModalEdit" @close="closemodal()" :add="add = false" :data='data' id="exampleModal">
+        <MainComponentModal v-if="showModalEdit" @close="closemodal()" :curentId='curentId' id="exampleModal">
             <template #header>Edit User</template>
             <template #footer>Edit</template>
-        </MainComponentModal>
-            <MainComponentModal v-if="showModalDestroy" @close="closemodal()" :destroy="destroy = true" :data='data' id="exampleModal">
-            <template #header>Delete User</template>
-            <template #footer>Delete</template>
         </MainComponentModal>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#" @click="getData()">Main Dashboard</a>
@@ -22,12 +18,6 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <button class="btn btn-outline-secondary mx-2" type="submit" @click="showModal = true, searchcheck = false">Add</button>
-                    </li>
-                    <li class="nav-item">
-                        <button class="btn btn-outline-secondary mx-2" type="submit" @click="showModalEdit = true, searchcheck = false">Edit</button>
-                    </li>
-                                <li class="nav-item">
-                        <button class="btn btn-outline-secondary mx-2" type="submit" @click="showModalDestroy = true, searchcheck = false">Delete</button>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
@@ -45,6 +35,10 @@
                     <td>{{user.age}}</td>
                     <td>{{user.sex}}</td>
                     <td>{{user.address}}</td>
+                    <td>
+                        <button class="btn btn-outline-secondary mx-2 float-right" type="submit" @click="showModalEdit = true, searchcheck = false, curentId = user.id">Edit</button>
+                        <button class="btn btn-outline-secondary mx-2 float-right" type="submit" @click="Delete(user.id)">X</button>
+                    </td>
                 </tr>
             </MainComponentTabel>
         </div>
@@ -59,10 +53,10 @@
             return {
                 showModal: false,
                 showModalEdit: false,
-                showModalDestroy: false,
                 data: [],
                 searchcheck: false,
-                search: ''
+                search: '',
+                curentId: ''
             }
         },
         mounted() {
@@ -113,6 +107,13 @@
                     console.log(error);
                 });
             },
+            Delete(payload){
+                if (confirm('Are you sure you want to delete this user?')) {
+                axios.delete('/users', { params: { id: payload}})
+                    .then(response => this.getData())
+                    .catch(error => this.errors.record(error.response.data));
+                }
+            }
         }
     }
 </script>

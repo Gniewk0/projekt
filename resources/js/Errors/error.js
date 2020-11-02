@@ -12,13 +12,6 @@ export default class Errors{ // klasa obsługująca błedy walidacji w formularz
             }
         }
 
-        getId(field) {
-            if(this.errors[0]){
-                if(this.errors[0].errors["id"] !== undefined)
-                return this.errors[0].errors["id"].join(" ");
-            }
-        }
-
         getName(field) {
             if(this.errors[0]){
                 if(this.errors[0].errors["name"] !== undefined)

@@ -7,19 +7,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="modal-body">
-                        <div class="d-flex numbertitle" v-if="!destroy">
+                        <div class="d-flex numbertitle">
                             <p class="mt-1">Name and Surname</p>
                         </div>
-                        <div class="form-group" v-if="!add || destroy">
-                            <label for="select">select user</label>
-                            <select class="form-control" v-model="selected" id="select">
-                                <option v-for="(option, i) in data" :key="i" :value="option.id">
-                                    id:{{option.id}} | name: {{ option.name }} | surname: {{ option.surname }} | address {{ option.address }}
-                                </option>
-                            </select>
-                            <span class="text-danger" v-if="errors.getId(selected)" v-text="errors.getId(selected)"></span>
-                        </div>
-                        <div class="form-row" v-if="!destroy">
+                        <div class="form-row">
                             <div class="form-group col-md-6">
                                 <input type="text" class="form-control" id="name" placeholder="name" v-model="name">
                                 <span class="text-danger" v-if="errors.getName(name)" v-text="errors.getName(name)"></span>
@@ -79,10 +70,7 @@
     import Errors from "../Errors/error.js"
     export default {
         props: {
-            data:{
-                // required: true
-            },
-            destroy:{
+            curentId:{
                 // required: true
             },
             add:{
@@ -97,18 +85,34 @@
                 age: '',
                 sex: '',
                 address: '',
-                selected: ''
+                selected: '',
+                response: ''
+            }
+        },
+        computed: {
+        },
+        watch: {
+            'response': function(newVal, oldVal) {
+                this.name = this.response.name,
+                this.surname = this.response.surname,
+                this.age = this.response.age,
+                this.sex = this.response.sex,
+                this.address = this.response.address
             }
         },
         mounted() {
-        },
-        computed: {
+            if(this.curentId){
+                axios.get('/users/show', { params: { id: this.curentId}})
+                .then(response => this.response = response.data[0])
+                .catch(error => this.errors.record(error.response.data));
+            }
         },
         methods: {
             Add() {
             this.errors.clearAll()
                 if(this.add){
                     axios.post('/users', {
+                        id: this.name,
                         name: this.name,
                         surname: this.surname,
                         age: this.age,
@@ -117,15 +121,9 @@
                     })
                     .then(response => this.$emit('close'))
                     .catch(error => this.errors.record(error.response.data));
-                }else if(this.destroy){
-                    axios.delete('/users', {
-                       params: { id: this.selected}
-                    })
-                    .then(response => this.$emit('close'))
-                    .catch(error => this.errors.record(error.response.data));
                 }else{
                     axios.put('/users/update', {
-                        id: this.selected,
+                        id: this.curentId,
                         name: this.name,
                         surname: this.surname,
                         age: this.age,
@@ -148,7 +146,7 @@
         top: 0;
         width: 100%; /* Full width */
         height: 100%; /* Full height */
-        /*overflow: scroll; /* Enable scroll if needed */
+        overflow: scroll; /* Enable scroll if needed */
         background-color: rgb(0,0,0)!important; /* Fallback color */
         background-color: rgba(0,0,0,0.3)!important; /* Black w/ opacity */
     }
